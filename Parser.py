@@ -4,8 +4,8 @@ import os
 import csv
 import subprocess
 
-datelisted = []#Пустой список с датой письма
-TaskInc = []#Пустой список с номером обращения
+datelisted = []
+TaskInc = []
 
 PWD = str(input("Enter password\n"))
 print('Начинаем процедуру настройки!\nСначала необходимо ввести дату формата: ОТ: ГОД:Месяц:Число. Затем ДО: ГОД:Месяц:Число! \n Если число месяца меньше 10, то необходимо вводить без Ноля')
@@ -24,10 +24,10 @@ tz = EWSTimeZone.localzone()
 creds = Credentials(username="User.Name", password=PWD)
 config = Configuration(server='Exchangeserver.@domain.com', credentials=creds)
 account = Account(primary_smtp_address="User.Name@domain.com", autodiscover=False, config=config, access_type=DELEGATE)
-my_folder = account.inbox / 'Registred_inc'
+my_folder = account.inbox / 'Registred_inc'#NameOfFolder
 for i in my_folder.filter(datetime_sent__range=(tz.localize(EWSDateTime(OTDateYears, OTDateMounth, OTDateday)), tz.localize(EWSDateTime(DoDateYears, DoDateMounth, DoDateday)))):
     DataPolucheniyaPisma = str(i.datetime_sent)
-    datelisted.append(DataPolucheniyaPisma)#Дата получения письма
+    datelisted.append(DataPolucheniyaPisma)#DateOfSentmail
 ##########################
     BodyWhithNumber = str(i.body)
     RazbivkaPoSimvoluBR = (BodyWhithNumber.split("br"))
@@ -37,7 +37,7 @@ for i in my_folder.filter(datetime_sent__range=(tz.localize(EWSDateTime(OTDateYe
     NeGotovyINC2 = (NeGotovyINC.split("."))#
     CompliteToString = ''.join(str(t) for t in NeGotovyINC2[0])
     RealNumberOfTask = (CompliteToString)
-    TaskInc.append(RealNumberOfTask)#Номер обращения
+    TaskInc.append(RealNumberOfTask)#NumberOfinc
 		
 countofstroki = int(len(datelisted))
 
@@ -49,8 +49,8 @@ with open("Export.xls", "w", newline='') as csv_file:
         writer.writerow((TaskInc[level_counter], datelisted[level_counter]))
         level_counter = level_counter +1
 
-print ('Выгружено количество записей по времени: ', countofstroki)
-print ('Выгружено количество записей по номеру обращения: ', len(TaskInc))
+print ('Count inc of time: ', countofstroki)
+print ('Count inc: ', len(TaskInc))
 
 subprocess.call("Export.xls", shell=True)
 
