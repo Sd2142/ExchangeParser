@@ -1,5 +1,5 @@
 # ExchangeParser
-email parser wit exchange server
+email parser via exchange server
 
 good afternoon!
 
