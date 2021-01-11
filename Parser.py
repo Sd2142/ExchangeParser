@@ -41,6 +41,8 @@ for i in my_folder.filter(datetime_sent__range=(tz.localize(EWSDateTime(OTDateYe
 		
 countofstroki = int(len(datelisted))
 
+print('Test_commit_for_jenkins')
+
 with open("Export.xls", "w", newline='') as csv_file:
     writer = csv.writer(csv_file, delimiter='\t')
     level_counter = 0
